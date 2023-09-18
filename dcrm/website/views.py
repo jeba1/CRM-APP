@@ -23,8 +23,8 @@ def home(request):
   
    
 
-def login_user(request):
-    pass
+def register(request):
+    return render(request, 'register.html', {})
 
 def logout_user(request):
     logout(request)
