@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from .form import SignUpForm
+from .form import SignUpForm, AddRecords
 from .models import Employee
 
 
@@ -49,3 +49,33 @@ def logout_user(request):
     logout(request)
     messages.success(request, "you have been logged out...")
     return redirect('home')
+
+def customer_record(request, pk):
+    if request.user.is_authenticated:
+        cust_rec = Employee.objects.get(id=pk)
+        return render(request, 'record.html', {'customer_r':cust_rec})
+    else:
+        messages.success(request, "you must be logged in")
+        return redirect('home')
+
+def delete_record(request, pk):
+    if request.user.is_authenticated:
+        delete_it = cust_rec = Employee.objects.get(id=pk)
+        delete_it.delete()
+        messages.success(request, "record deleted succesfully..")
+        return redirect('home')
+    else:
+        messages.success(request, "you must be logged in")
+    return redirect('home')      
+def add_record(request):
+    form = AddRecords(request.POST or None)
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            if form.is_valid():
+                add_record = form.save()
+                return redirect('home')
+                
+        return render(request, 'add_record.html', {'form':form})
+    else:
+       messages.success(request, "you must be logged in")
+       return redirect('home') 

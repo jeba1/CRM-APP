@@ -9,6 +9,8 @@ class Employee(models.Model):
     phone = models.CharField(max_length=255)
     adress = models.CharField(max_length=255)
     city= models.CharField(max_length=255)
+    #state = models.CharField(max_length=255)
     
     def __str__(self):
         return f"{self.firstname}, {self.lastname}, {self.email}"
+
